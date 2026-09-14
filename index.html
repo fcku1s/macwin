@@ -1,594 +1,945 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Windows / Mac 客户端配置教程 - Clash Verge</title>
+```
+<title>Windows / Mac 客户端配置教程 - Dankewed</title>
 
-    <meta name="description" content="Windows 和 Mac 使用 Clash Verge 配置 Dankewed 订阅的详细教程">
+<meta name="description" content="Windows 和 Mac 使用 Clash Verge 配置 Dankewed 订阅的完整教程">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-        html {
-            scroll-behavior: smooth;
-        }
+    html {
+        scroll-behavior: smooth;
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family:
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                "PingFang SC",
-                "Hiragino Sans GB",
-                "Microsoft YaHei",
-                Arial,
-                sans-serif;
-            background: #f5f7fa;
-            color: #222;
-            line-height: 1.75;
-        }
+    body {
+        margin: 0;
+        padding: 0;
+        font-family:
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            "PingFang SC",
+            "Hiragino Sans GB",
+            "Microsoft YaHei",
+            Arial,
+            sans-serif;
+        background: #f5f7fa;
+        color: #222;
+        line-height: 1.75;
+        position: relative;
+    }
+
+    /* =========================
+       全屏水印
+    ========================= */
+
+    .watermark {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9999;
+        overflow: hidden;
+        opacity: 0.055;
+        user-select: none;
+    }
+
+    .watermark span {
+        position: absolute;
+        font-size: 30px;
+        font-weight: 700;
+        color: #1677ff;
+        white-space: nowrap;
+        transform: rotate(-25deg);
+    }
+
+    .watermark span:nth-child(1) {
+        top: 8%;
+        left: -5%;
+    }
+
+    .watermark span:nth-child(2) {
+        top: 22%;
+        left: 35%;
+    }
+
+    .watermark span:nth-child(3) {
+        top: 38%;
+        left: 0%;
+    }
+
+    .watermark span:nth-child(4) {
+        top: 54%;
+        left: 40%;
+    }
+
+    .watermark span:nth-child(5) {
+        top: 70%;
+        left: 5%;
+    }
+
+    .watermark span:nth-child(6) {
+        top: 85%;
+        left: 42%;
+    }
+
+    /* =========================
+       页面主体
+    ========================= */
+
+    .container {
+        width: 100%;
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 20px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* =========================
+       顶部
+    ========================= */
+
+    .hero {
+        background: linear-gradient(135deg, #1677ff, #005bea);
+        color: #fff;
+        padding: 30px 24px;
+        border-radius: 18px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 25px rgba(0, 91, 234, 0.18);
+    }
+
+    .hero h1 {
+        margin: 0 0 10px;
+        font-size: 27px;
+        line-height: 1.35;
+    }
+
+    .hero p {
+        margin: 0;
+        opacity: 0.92;
+        font-size: 15px;
+    }
+
+    /* =========================
+       下载区域
+    ========================= */
+
+    .download-box {
+        background: #fff;
+        border-radius: 18px;
+        padding: 24px;
+        margin-bottom: 20px;
+        border: 2px solid #1677ff;
+        box-shadow: 0 5px 20px rgba(22, 119, 255, 0.12);
+    }
+
+    .download-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 8px;
+        font-size: 22px;
+        font-weight: 800;
+        color: #111827;
+    }
+
+    .download-subtitle {
+        color: #6b7280;
+        font-size: 14px;
+        margin-bottom: 18px;
+    }
+
+    .download-btn {
+        display: block;
+        text-decoration: none;
+        color: #fff;
+        background: linear-gradient(135deg, #1677ff, #005bea);
+        padding: 16px 18px;
+        border-radius: 12px;
+        margin: 12px 0;
+        font-weight: 700;
+        font-size: 16px;
+        text-align: center;
+        box-shadow: 0 5px 14px rgba(22, 119, 255, 0.2);
+        transition: 0.2s;
+    }
+
+    .download-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(22, 119, 255, 0.28);
+    }
+
+    .download-btn.mac {
+        background: linear-gradient(135deg, #333, #111);
+    }
+
+    .download-btn.mac:hover {
+        background: #111;
+    }
+
+    .download-note {
+        margin-top: 18px;
+        padding: 14px;
+        background: #f8fafc;
+        border-radius: 10px;
+        border: 1px solid #e5e7eb;
+        font-size: 14px;
+    }
+
+    /* =========================
+       提示
+    ========================= */
+
+    .tip {
+        background: #eef6ff;
+        border-left: 4px solid #1677ff;
+        padding: 13px 15px;
+        margin-top: 15px;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    .warning {
+        background: #fff4e8;
+        border-left: 4px solid #ff7a00;
+        padding: 13px 15px;
+        margin-top: 15px;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    .danger {
+        background: #fff1f2;
+        border-left: 4px solid #ef4444;
+        padding: 14px 15px;
+        margin-top: 15px;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #7f1d1d;
+    }
+
+    .success-tip {
+        background: #ecfdf3;
+        border-left: 4px solid #16a34a;
+        padding: 13px 15px;
+        margin-top: 15px;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    /* =========================
+       步骤卡片
+    ========================= */
+
+    .step {
+        background: #fff;
+        border-radius: 16px;
+        padding: 22px;
+        margin-bottom: 18px;
+        border: 1px solid #e8ebef;
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.045);
+    }
+
+    .step-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 15px;
+        font-size: 19px;
+        line-height: 1.4;
+    }
+
+    .step-number {
+        flex-shrink: 0;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #1677ff;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    ol {
+        padding-left: 22px;
+        margin: 0;
+    }
+
+    li {
+        margin-bottom: 8px;
+    }
+
+    /* =========================
+       图片
+    ========================= */
+
+    .step-image {
+        display: block;
+        width: 100%;
+        max-width: 560px;
+        height: auto;
+        margin: 18px auto 5px;
+        border-radius: 14px;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    /* =========================
+       代码
+    ========================= */
+
+    code {
+        background: #f1f3f5;
+        padding: 3px 7px;
+        border-radius: 5px;
+        font-size: 14px;
+        color: #d6336c;
+        word-break: break-all;
+    }
+
+    /* =========================
+       订阅安全
+    ========================= */
+
+    .subscription-security {
+        background: linear-gradient(135deg, #fff7ed, #fff);
+        border: 2px solid #ff8a00;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .subscription-security h2 {
+        margin: 0 0 12px;
+        color: #c2410c;
+        font-size: 20px;
+    }
+
+    .subscription-security ul {
+        margin: 8px 0 0;
+        padding-left: 22px;
+    }
+
+    .subscription-security li {
+        margin-bottom: 7px;
+    }
+
+    /* =========================
+       订阅失败
+    ========================= */
+
+    .fix-box {
+        background: #fff;
+        border: 2px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 22px;
+        margin-bottom: 20px;
+    }
+
+    .fix-box h2 {
+        margin: 0 0 15px;
+        font-size: 20px;
+    }
+
+    .fix-step {
+        background: #f8fafc;
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin: 8px 0;
+    }
+
+    .fix-step strong {
+        color: #1677ff;
+    }
+
+    /* =========================
+       完成
+    ========================= */
+
+    .success {
+        background: linear-gradient(135deg, #f0fff4, #e6ffed);
+        border: 1px solid #b7ebc6;
+        border-radius: 16px;
+        padding: 22px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .success h2 {
+        color: #198754;
+        margin-top: 0;
+    }
+
+    /* =========================
+       页脚
+    ========================= */
+
+    footer {
+        text-align: center;
+        color: #888;
+        font-size: 13px;
+        padding: 25px 10px;
+    }
+
+    /* =========================
+       手机适配
+    ========================= */
+
+    @media (max-width: 600px) {
 
         .container {
-            width: 100%;
-            max-width: 760px;
-            margin: 0 auto;
-            padding: 20px;
+            padding: 12px;
         }
 
-        /* 顶部 */
         .hero {
-            background: linear-gradient(135deg, #1677ff, #005bea);
-            color: #fff;
-            padding: 30px 24px;
-            border-radius: 18px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 25px rgba(0, 91, 234, 0.18);
+            padding: 24px 18px;
+            border-radius: 14px;
         }
 
         .hero h1 {
-            margin: 0 0 10px;
-            font-size: 27px;
-            line-height: 1.35;
+            font-size: 23px;
         }
 
-        .hero p {
-            margin: 0;
-            opacity: 0.92;
-            font-size: 15px;
-        }
-
-        /* 下载区域 */
-        .download-box {
-            background: #fff;
-            border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 20px;
-            border: 1px solid #e8ebef;
-            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.05);
-        }
-
-        .download-box h2 {
-            margin: 0 0 15px;
-            font-size: 20px;
-        }
-
-        .download-btn {
-            display: block;
-            text-decoration: none;
-            color: #fff;
-            background: #1677ff;
-            padding: 13px 16px;
-            border-radius: 10px;
-            margin: 10px 0;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-
-        .download-btn:hover {
-            background: #0958d9;
-            transform: translateY(-1px);
-        }
-
-        .download-btn.mac {
-            background: #333;
-        }
-
-        .download-btn.mac:hover {
-            background: #111;
-        }
-
-        /* 提示 */
-        .tip {
-            background: #eef6ff;
-            border-left: 4px solid #1677ff;
-            padding: 12px 15px;
-            margin-top: 15px;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .warning {
-            background: #fff4e8;
-            border-left: 4px solid #ff7a00;
-            padding: 12px 15px;
-            margin-top: 15px;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        /* 步骤 */
-        .step {
-            background: #fff;
-            border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 18px;
-            border: 1px solid #e8ebef;
-            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.045);
+        .step,
+        .download-box,
+        .subscription-security,
+        .fix-box {
+            padding: 17px;
+            border-radius: 13px;
         }
 
         .step-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0 0 15px;
-            font-size: 19px;
-            line-height: 1.4;
+            font-size: 17px;
         }
 
         .step-number {
-            flex-shrink: 0;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: #1677ff;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 15px;
-        }
-
-        ol {
-            padding-left: 22px;
-            margin: 0;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        /* 图片 */
-        .step-image {
-            display: block;
-            width: 100%;
-            max-width: 560px;
-            height: auto;
-            margin: 18px auto 5px;
-            border-radius: 14px;
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        /* 代码 */
-        code {
-            background: #f1f3f5;
-            padding: 3px 7px;
-            border-radius: 5px;
+            width: 30px;
+            height: 30px;
             font-size: 14px;
-            color: #d6336c;
         }
 
-        /* 完成 */
-        .success {
-            background: linear-gradient(135deg, #f0fff4, #e6ffed);
-            border: 1px solid #b7ebc6;
-            border-radius: 16px;
-            padding: 22px;
-            text-align: center;
-            margin-top: 20px;
+        .step-image {
+            border-radius: 11px;
         }
 
-        .success h2 {
-            color: #198754;
-            margin-top: 0;
+        .download-title {
+            font-size: 20px;
         }
 
-        /* 页脚 */
-        footer {
-            text-align: center;
-            color: #888;
-            font-size: 13px;
-            padding: 25px 10px;
+        .watermark span {
+            font-size: 22px;
         }
+    }
+</style>
+```
 
-        /* 手机适配 */
-        @media (max-width: 600px) {
-
-            .container {
-                padding: 12px;
-            }
-
-            .hero {
-                padding: 24px 18px;
-                border-radius: 14px;
-            }
-
-            .hero h1 {
-                font-size: 23px;
-            }
-
-            .step,
-            .download-box {
-                padding: 17px;
-                border-radius: 13px;
-            }
-
-            .step-title {
-                font-size: 17px;
-            }
-
-            .step-number {
-                width: 30px;
-                height: 30px;
-                font-size: 14px;
-            }
-
-            .step-image {
-                border-radius: 11px;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
+<!-- =========================
+     全屏 Dankewed 水印
+========================= -->
+
+<div class="watermark">
+    <span>dankewed.com</span>
+    <span>dankewed.com</span>
+    <span>dankewed.com</span>
+    <span>dankewed.com</span>
+    <span>dankewed.com</span>
+    <span>dankewed.com</span>
+</div>
+
 <div class="container">
 
-    <!-- 顶部标题 -->
-    <div class="hero">
-        <h1>💻 Windows / Mac 客户端配置教程</h1>
-        <p>Clash Verge · 从下载安装到节点使用的完整教程</p>
+```
+<!-- 顶部 -->
+
+<div class="hero">
+    <h1>💻 Windows / Mac 客户端配置教程</h1>
+    <p>Clash Verge · 从下载安装到节点使用的完整教程</p>
+</div>
+
+
+<!-- 下载区域 -->
+
+<div class="download-box">
+
+    <div class="download-title">
+        📦 第一步：下载 Clash Verge
     </div>
 
-
-    <!-- 下载 -->
-    <div class="download-box">
-
-        <h2>📦 第一步：下载 Clash Verge</h2>
-
-        <a
-            class="download-btn"
-            href="https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.2/Clash.Verge_2.5.2_x64-setup.exe"
-            target="_blank"
-            rel="noopener noreferrer">
-            🪟 下载 Windows 版
-        </a>
-
-        <a
-            class="download-btn mac"
-            href="https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.2/Clash.Verge_2.5.2_aarch64.dmg"
-            target="_blank"
-            rel="noopener noreferrer">
-            🍎 下载 macOS（M 芯片）
-        </a>
-
-        <a
-            class="download-btn mac"
-            href="https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.2/Clash.Verge_2.5.2_x64.dmg"
-            target="_blank"
-            rel="noopener noreferrer">
-            🍎 下载 macOS（Intel 芯片）
-        </a>
-
-        <div class="tip">
-            💡 Mac 用户请根据电脑芯片选择版本：
-            <br>
-            M1 / M2 / M3 / M4 等 Apple 芯片 → 选择 <strong>aarch64</strong>
-            <br>
-            Intel 芯片 → 选择 <strong>x64</strong>
-        </div>
-
+    <div class="download-subtitle">
+        请根据你的电脑系统和芯片型号选择对应版本下载。
     </div>
 
+    <a
+        class="download-btn"
+        href="https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.2/Clash.Verge_2.5.2_x64-setup.exe"
+        target="_blank"
+        rel="noopener noreferrer">
+        🪟 点击下载 Windows 版
+    </a>
 
-    <!-- 第二步 -->
-    <div class="step">
+    <a
+        class="download-btn mac"
+        href="https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.2/Clash.Verge_2.5.2_aarch64.dmg"
+        target="_blank"
+        rel="noopener noreferrer">
+        🍎 点击下载 macOS（M 芯片）
+    </a>
 
-        <h2 class="step-title">
-            <span class="step-number">2</span>
-            选择安装语言
-        </h2>
+    <a
+        class="download-btn mac"
+        href="https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.2/Clash.Verge_2.5.2_x64.dmg"
+        target="_blank"
+        rel="noopener noreferrer">
+        🍎 点击下载 macOS（Intel 芯片）
+    </a>
 
-        <ol>
-            <li>打开 Clash Verge 安装程序。</li>
-            <li>出现语言选择窗口后，默认选择「中文（简体）」即可。</li>
-            <li>点击「OK」。</li>
-        </ol>
+    <div class="download-note">
 
-        <img
-            class="step-image"
-            src="https://i.ibb.co/k20mHQfB/1.jpg"
-            alt="Clash Verge 选择安装语言">
+        <strong>💡 Mac 用户如何判断芯片？</strong>
 
-    </div>
+        <br><br>
 
+        点击左上角  →「关于本机」。
 
-    <!-- 第三步 -->
-    <div class="step">
+        <br><br>
 
-        <h2 class="step-title">
-            <span class="step-number">3</span>
-            开始安装
-        </h2>
+        如果显示：
+        <strong>Apple M1 / M2 / M3 / M4</strong>
+        等 → 下载 <strong>aarch64</strong>。
 
-        <ol>
-            <li>进入安装程序欢迎界面。</li>
-            <li>点击「下一步(N)」。</li>
-        </ol>
+        <br>
 
-        <img
-            class="step-image"
-            src="https://i.ibb.co/r23Yv3QD/2.jpg"
-            alt="Clash Verge 欢迎安装界面">
+        如果显示：
+        <strong>Intel</strong>
+        → 下载 <strong>x64</strong>。
 
     </div>
 
+</div>
 
-    <!-- 第四步 -->
-    <div class="step">
 
-        <h2 class="step-title">
-            <span class="step-number">4</span>
-            选择安装位置
-        </h2>
+<!-- 第二步 -->
 
-        <ol>
-            <li>保持默认安装目录即可。</li>
-            <li>点击「下一步(N)」。</li>
-            <li>等待软件安装完成。</li>
-        </ol>
+<div class="step">
 
-        <img
-            class="step-image"
-            src="https://i.ibb.co/M5SPkTQq/3.jpg"
-            alt="Clash Verge 安装位置">
+    <h2 class="step-title">
+        <span class="step-number">2</span>
+        选择安装语言
+    </h2>
 
+    <ol>
+        <li>打开 Clash Verge 安装程序。</li>
+        <li>出现语言选择窗口后，默认选择「中文（简体）」即可。</li>
+        <li>点击「OK」。</li>
+    </ol>
+
+    <img
+        class="step-image"
+        src="https://i.ibb.co/k20mHQfB/1.jpg"
+        alt="Clash Verge 选择安装语言">
+
+</div>
+
+
+<!-- 第三步 -->
+
+<div class="step">
+
+    <h2 class="step-title">
+        <span class="step-number">3</span>
+        开始安装
+    </h2>
+
+    <ol>
+        <li>进入安装程序欢迎界面。</li>
+        <li>点击「下一步(N)」。</li>
+    </ol>
+
+    <img
+        class="step-image"
+        src="https://i.ibb.co/r23Yv3QD/2.jpg"
+        alt="Clash Verge 欢迎安装界面">
+
+</div>
+
+
+<!-- 第四步 -->
+
+<div class="step">
+
+    <h2 class="step-title">
+        <span class="step-number">4</span>
+        选择安装位置
+    </h2>
+
+    <ol>
+        <li>保持默认安装目录即可。</li>
+        <li>点击「下一步(N)」。</li>
+        <li>等待软件安装完成。</li>
+    </ol>
+
+    <img
+        class="step-image"
+        src="https://i.ibb.co/M5SPkTQq/3.jpg"
+        alt="Clash Verge 安装位置">
+
+</div>
+
+
+<!-- 第五步 -->
+
+<div class="step">
+
+    <h2 class="step-title">
+        <span class="step-number">5</span>
+        打开软件并进入订阅
+    </h2>
+
+    <ol>
+        <li>安装完成后打开 Clash Verge。</li>
+        <li>进入首页。</li>
+        <li>找到「订阅」区域。</li>
+        <li>点击「导入订阅」。</li>
+    </ol>
+
+    <img
+        class="step-image"
+        src="https://i.ibb.co/rGpHkzfX/4.jpg"
+        alt="Clash Verge 导入订阅">
+
+</div>
+
+
+<!-- 第六步 -->
+
+<div class="step">
+
+    <h2 class="step-title">
+        <span class="step-number">6</span>
+        打开官网仪表盘
+    </h2>
+
+    <ol>
+        <li>打开会员中心：<code>dankewed.com</code></li>
+        <li>登录你的账户。</li>
+        <li>点击顶部「仪表盘」。</li>
+        <li>找到你的套餐信息。</li>
+        <li>点击橙色的「导入订阅」按钮。</li>
+    </ol>
+
+    <img
+        class="step-image"
+        src="https://i.ibb.co/HDx46d2T/5.jpg"
+        alt="Dankewed 仪表盘">
+
+</div>
+
+
+<!-- 第七步 -->
+
+<div class="step">
+
+    <h2 class="step-title">
+        <span class="step-number">7</span>
+        复制订阅地址
+    </h2>
+
+    <ol>
+        <li>在弹出的「导入订阅」窗口中找到对应分类。</li>
+        <li>Windows 用户选择 Windows。</li>
+        <li>Mac 用户选择 MacOS。</li>
+        <li>点击「复制订阅地址」。</li>
+    </ol>
+
+    <div class="tip">
+        💡 点击复制后，订阅地址会自动保存到剪贴板。
     </div>
 
+    <img
+        class="step-image"
+        src="https://i.ibb.co/Qj8HBckM/6.jpg"
+        alt="复制订阅地址">
 
-    <!-- 第五步 -->
-    <div class="step">
+</div>
 
-        <h2 class="step-title">
-            <span class="step-number">5</span>
-            打开软件并进入订阅
-        </h2>
 
-        <ol>
-            <li>安装完成后打开 Clash Verge。</li>
-            <li>进入首页。</li>
-            <li>找到「订阅」区域。</li>
-            <li>点击「导入订阅」。</li>
-        </ol>
+<!-- 第八步 -->
 
-        <img
-            class="step-image"
-            src="https://i.ibb.co/rGpHkzfX/4.jpg"
-            alt="Clash Verge 导入订阅">
+<div class="step">
 
+    <h2 class="step-title">
+        <span class="step-number">8</span>
+        粘贴订阅地址
+    </h2>
+
+    <ol>
+        <li>回到 Clash Verge。</li>
+        <li>进入「订阅」页面。</li>
+        <li>在顶部输入框粘贴刚才复制的订阅地址。</li>
+        <li>点击「导入」。</li>
+        <li>等待订阅加载完成。</li>
+    </ol>
+
+    <img
+        class="step-image"
+        src="https://i.ibb.co/Q3yHwb3b/7.jpg"
+        alt="粘贴订阅地址">
+
+</div>
+
+
+<!-- 第九步 -->
+
+<div class="step">
+
+    <h2 class="step-title">
+        <span class="step-number">9</span>
+        打开代理节点列表
+    </h2>
+
+    <ol>
+        <li>点击左侧「代理」。</li>
+        <li>找到当前代理组。</li>
+        <li>点击右上角数字或箭头图标。</li>
+        <li>展开完整节点列表。</li>
+    </ol>
+
+    <img
+        class="step-image"
+        src="https://i.ibb.co/7FSWYj0/8.jpg"
+        alt="Clash Verge 节点列表">
+
+</div>
+
+
+<!-- 第十步 -->
+
+<div class="step">
+
+    <h2 class="step-title">
+        <span class="step-number">10</span>
+        测速并选择节点
+    </h2>
+
+    <ol>
+        <li>点击右上角闪电 ⚡ 图标。</li>
+        <li>等待所有节点完成测速。</li>
+        <li>查看节点延迟。</li>
+        <li>通常延迟数值越低，连接响应越快。</li>
+        <li>选择一个适合自己的地区节点。</li>
+    </ol>
+
+    <div class="tip">
+        💡 如果某个节点测速失败或超时，可以尝试其他节点。
     </div>
 
+    <img
+        class="step-image"
+        src="https://i.ibb.co/YBLsGnwP/9.jpg"
+        alt="Clash Verge 节点测速">
 
-    <!-- 第六步 -->
-    <div class="step">
+</div>
 
-        <h2 class="step-title">
-            <span class="step-number">6</span>
-            打开官网仪表盘
-        </h2>
 
-        <ol>
-            <li>打开会员中心：<code>dankewed.com</code></li>
-            <li>登录你的账户。</li>
-            <li>点击顶部「仪表盘」。</li>
-            <li>找到你的套餐信息。</li>
-            <li>点击橙色的「导入订阅」按钮。</li>
-        </ol>
+<!-- 第十一步 -->
 
-        <img
-            class="step-image"
-            src="https://i.ibb.co/HDx46d2T/5.jpg"
-            alt="Dankewed 仪表盘">
+<div class="step">
 
+    <h2 class="step-title">
+        <span class="step-number">11</span>
+        开启系统代理
+    </h2>
+
+    <ol>
+        <li>回到左侧「首页」。</li>
+        <li>找到「网络设置」。</li>
+        <li>找到「系统代理」。</li>
+        <li>点击右侧开关。</li>
+        <li>开关变成绿色后，即表示已经开启。</li>
+    </ol>
+
+    <img
+        class="step-image"
+        src="https://i.ibb.co/3mz6stLW/10.jpg"
+        alt="开启系统代理">
+
+    <div class="tip">
+        💡 推荐普通用户优先使用「系统代理」。
+        浏览器以及支持系统代理的软件通常会自动使用代理连接。
     </div>
 
+</div>
 
-    <!-- 第七步 -->
-    <div class="step">
 
-        <h2 class="step-title">
-            <span class="step-number">7</span>
-            复制订阅地址
-        </h2>
+<!-- 第十二步 -->
 
-        <ol>
-            <li>在弹出的「导入订阅」窗口中找到对应分类。</li>
-            <li>Windows 用户选择 Windows。</li>
-            <li>Mac 用户选择 MacOS。</li>
-            <li>点击「复制订阅地址」。</li>
-        </ol>
+<div class="step">
 
-        <div class="tip">
-            💡 点击复制后，订阅地址会自动保存到剪贴板。
-        </div>
+    <h2 class="step-title">
+        <span class="step-number">12</span>
+        无法代理时开启虚拟网卡模式
+    </h2>
 
-        <img
-            class="step-image"
-            src="https://i.ibb.co/Qj8HBckM/6.jpg"
-            alt="复制订阅地址">
+    <ol>
+        <li>如果部分软件无法正常联网，可以尝试开启虚拟网卡模式。</li>
+        <li>进入 Clash Verge「网络设置」。</li>
+        <li>找到「虚拟网卡模式」。</li>
+        <li>点击右侧开关。</li>
+        <li>首次开启可能会要求管理员权限，请根据系统提示操作。</li>
+    </ol>
 
+    <img
+        class="step-image"
+        src="https://i.ibb.co/SXj1DZT3/11.jpg"
+        alt="开启虚拟网卡模式">
+
+    <div class="warning">
+        ⚠️ 虚拟网卡模式（TUN）会接管更多系统网络流量。
+        如果只是浏览网页，通常优先使用「系统代理」即可。
     </div>
 
+</div>
 
-    <!-- 第八步 -->
-    <div class="step">
 
-        <h2 class="step-title">
-            <span class="step-number">8</span>
-            粘贴订阅地址
-        </h2>
+<!-- 订阅安全说明 -->
 
-        <ol>
-            <li>回到 Clash Verge。</li>
-            <li>进入「订阅」页面。</li>
-            <li>在顶部输入框粘贴刚才复制的订阅地址。</li>
-            <li>点击「导入」。</li>
-        </ol>
+<div class="subscription-security">
 
-        <img
-            class="step-image"
-            src="https://i.ibb.co/Q3yHwb3b/7.jpg"
-            alt="粘贴订阅地址">
+    <h2>🔐 订阅地址安全说明</h2>
 
+    <p>
+        为了保护你的账户和订阅安全，请务必注意以下事项：
+    </p>
+
+    <ul>
+        <li>
+            <strong>本站订阅采用「阅后即焚」模式。</strong>
+        </li>
+
+        <li>
+            订阅地址获取或使用后，如果无法再次获取属于正常情况。
+        </li>
+
+        <li>
+            <strong>请不要将订阅地址分享给其他人。</strong>
+        </li>
+
+        <li>
+            不要将订阅链接发布到群聊、论坛、网站或其他公开平台。
+        </li>
+
+        <li>
+            订阅地址属于你的个人使用信息，请妥善保存。
+        </li>
+    </ul>
+
+    <div class="danger">
+        ⚠️ <strong>重要：</strong>
+        请勿分享你的订阅地址。订阅地址一旦泄露，可能被其他人使用，
+        从而影响你的正常使用。
     </div>
 
+</div>
 
-    <!-- 第九步 -->
-    <div class="step">
 
-        <h2 class="step-title">
-            <span class="step-number">9</span>
-            打开代理节点列表
-        </h2>
+<!-- 订阅失败解决办法 -->
 
-        <ol>
-            <li>点击左侧「代理」。</li>
-            <li>找到当前代理组。</li>
-            <li>点击右上角数字或箭头图标。</li>
-            <li>展开完整节点列表。</li>
-        </ol>
+<div class="fix-box">
 
-        <img
-            class="step-image"
-            src="https://i.ibb.co/7FSWYj0/8.jpg"
-            alt="Clash Verge 节点列表">
+    <h2>🛠️ 订阅导入失败怎么办？</h2>
 
+    <p>
+        如果出现「订阅失败」「无法导入」「订阅地址无效」、
+        「获取配置失败」等情况，请按照下面的方法重新获取订阅。
+    </p>
+
+    <div class="fix-step">
+        <strong>① 返回官网</strong>
+        <br>
+        打开 <code>dankewed.com</code>。
     </div>
 
-
-    <!-- 第十步 -->
-    <div class="step">
-
-        <h2 class="step-title">
-            <span class="step-number">10</span>
-            测速并选择节点
-        </h2>
-
-        <ol>
-            <li>点击右上角闪电 ⚡ 图标。</li>
-            <li>等待所有节点完成测速。</li>
-            <li>查看节点延迟。</li>
-            <li>通常延迟数值越低，连接响应越快。</li>
-            <li>选择一个适合自己的地区节点。</li>
-        </ol>
-
-        <img
-            class="step-image"
-            src="https://i.ibb.co/YBLsGnwP/9.jpg"
-            alt="Clash Verge 节点测速">
-
+    <div class="fix-step">
+        <strong>② 刷新官网页面</strong>
+        <br>
+        将官网页面重新刷新一次。
     </div>
 
-
-    <!-- 第十一步 -->
-    <div class="step">
-
-        <h2 class="step-title">
-            <span class="step-number">11</span>
-            开启系统代理
-        </h2>
-
-        <ol>
-            <li>回到左侧「首页」。</li>
-            <li>找到「网络设置」。</li>
-            <li>找到「系统代理」。</li>
-            <li>点击右侧开关。</li>
-            <li>开关变成绿色后，即表示已经开启。</li>
-        </ol>
-
-        <img
-            class="step-image"
-            src="https://i.ibb.co/3mz6stLW/10.jpg"
-            alt="开启系统代理">
-
-        <div class="tip">
-            💡 推荐普通用户优先使用「系统代理」。
-            浏览器以及支持系统代理的软件通常会自动使用代理连接。
-        </div>
-
+    <div class="fix-step">
+        <strong>③ 重新进入仪表盘</strong>
+        <br>
+        登录账号后进入「仪表盘」。
     </div>
 
-
-    <!-- 第十二步 -->
-    <div class="step">
-
-        <h2 class="step-title">
-            <span class="step-number">12</span>
-            无法代理时开启虚拟网卡模式
-        </h2>
-
-        <ol>
-            <li>如果部分软件无法正常联网，可以尝试开启虚拟网卡模式。</li>
-            <li>进入 Clash Verge「网络设置」。</li>
-            <li>找到「虚拟网卡模式」。</li>
-            <li>点击右侧开关。</li>
-            <li>首次开启可能会要求管理员权限，请根据系统提示操作。</li>
-        </ol>
-
-        <img
-            class="step-image"
-            src="https://i.ibb.co/SXj1DZT3/11.jpg"
-            alt="开启虚拟网卡模式">
-
-        <div class="warning">
-            ⚠️ 虚拟网卡模式（TUN）会接管更多系统网络流量。
-            如果只是浏览网页，通常优先使用「系统代理」即可。
-        </div>
-
+    <div class="fix-step">
+        <strong>④ 重新获取订阅</strong>
+        <br>
+        找到对应套餐，再次点击「导入订阅」。
     </div>
 
-
-    <!-- 完成 -->
-    <div class="success">
-
-        <h2>🎉 配置完成</h2>
-
-        <p>
-            现在 Clash Verge 已经完成基本配置。
-        </p>
-
-        <p>
-            选择需要使用的节点后，
-            开启「系统代理」即可开始使用。
-        </p>
-
-        <p>
-            如果某个节点速度较慢，可以重新测速并更换其他节点。
-        </p>
-
+    <div class="fix-step">
+        <strong>⑤ 复制新的订阅地址</strong>
+        <br>
+        获取新的订阅地址后，再回到 Clash Verge 重新导入。
     </div>
 
+    <div class="success-tip">
+        ✅ <strong>简单来说：</strong>
+        如果订阅失败，不要反复使用旧的订阅地址。
+        直接刷新官网 → 重新进入仪表盘 → 重新获取新的订阅地址 → 再次导入即可。
+    </div>
 
-    <footer>
-        Dankewed · Windows / Mac 客户端配置教程
-    </footer>
+</div>
+
+
+<!-- 完成 -->
+
+<div class="success">
+
+    <h2>🎉 配置完成</h2>
+
+    <p>
+        现在 Clash Verge 已经完成基本配置。
+    </p>
+
+    <p>
+        选择需要使用的节点后，
+        开启「系统代理」即可开始使用。
+    </p>
+
+    <p>
+        如果某个节点速度较慢，可以重新测速并更换其他节点。
+    </p>
+
+    <p>
+        如果订阅无法导入，请按照上面的「订阅导入失败解决办法」
+        重新刷新官网并获取新的订阅地址。
+    </p>
+
+</div>
+
+
+<footer>
+    Dankewed · Windows / Mac 客户端配置教程
+    <br>
+    dankewed.com
+</footer>
+```
 
 </div>
 
